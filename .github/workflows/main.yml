@@ -31,7 +31,6 @@ jobs:
         id: pr_list
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Pass the token explicitly to gh CLI
-          PAT_TOKEN: ${{ secrets.PAT_NAME }}
         run: |
           prs=$(gh pr list --state open --json number,headRefName --jq '.[] | "\(.number) \(.headRefName)"')
           echo "::set-output name=prs::$prs"
@@ -39,7 +38,7 @@ jobs:
       # Step 6: Rebase remaining PRs onto main branch
       - name: Rebase remaining PRs onto main branch
         env:
-          GH_TOKEN: ${{ secrets.PAT_NAME }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           prs=$(gh pr list --state open --json number,headRefName)
           # Loop through each open PR and rebase
