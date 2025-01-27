@@ -68,7 +68,9 @@ jobs:
             # Rebase the PR branch onto the main branch
             git rebase origin/main || {
               echo "::error::Rebase failed for PR #$pr_number. Trying to skip conflicting commits."
-              git merge -s ours main
+              git add .
+              git merge -s ours main 
+              git push --force origin main
               # Keep skipping the conflicting commits until the rebase is successful
               # while ! git rebase --skip; do
               #   echo "::warning::Skipping commit due to conflict. Trying again..."
