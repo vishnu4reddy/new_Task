@@ -13,9 +13,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          ref : ${{github.head_ref}}
-          
+      
       - name: Fetch latest main branch
         run: |
           git fetch origin main
