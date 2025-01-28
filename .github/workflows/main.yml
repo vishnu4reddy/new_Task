@@ -7,15 +7,8 @@ on:
     # Alternatively, you can use a pattern or specific branches.
 permissions:
   contents: write
-  checks: read
-  deployments: read
-  discussions: read
-  issues: read
   pages: read
-  packages: read
   pull-requests: read
-  repository-projects: read
-  security-events: read
   statuses: read
 jobs:
   rebase-with-main:
