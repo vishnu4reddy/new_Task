@@ -74,15 +74,19 @@ jobs:
             echo "Starting rebase of PR #$pr_number..."
       
             # Rebase the PR branch onto the main branch
-            git rebase origin/main || {
-              echo "::error::Rebase failed for PR #$pr_number. Trying to skip conflicting commits."
+            # git rebase origin/main || {
+            #   echo "::error::Rebase failed for PR #$pr_number. Trying to skip conflicting commits."
       
-              git rebase --strategy=recursive --strategy-option=ours origin/main || echo "Automatic rebase failed. Conflicts need manual resolution."
+            #   git rebase --strategy=recursive --strategy-option=ours origin/main || echo "Automatic rebase failed. Conflicts need manual resolution."
                  
-              git add .
-              git rebase --continue
-            }
+            #   git add .
+            #   git rebase --continue
+            # }
+            echo "::error::Rebase failed for PR #$pr_number. Trying to skip conflicting commits."
       
+            git rebase --strategy=recursive --strategy-option=ours origin/main || echo "Automatic rebase failed. Conflicts need manual resolution."
+            git add .
+            git rebase --continue
             # After the rebase is successful, push the rebased PR
             echo "Rebasing of PR #$pr_number ($pr_branch) successful!"
             
