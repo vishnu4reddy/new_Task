@@ -19,13 +19,6 @@ jobs:
       - name: Fetch latest main branch
         run: |
           git fetch origin main
-
-      - name: Rebase the PR branch onto main
-        run: |
-          git checkout ${{ github.head_ref }}
-          echo "github ${{github.head_ref}}"
-          git rebase origin/main
-
       # Get list of open PRs
       - name: Get list of open PRs
         id: pr_list
