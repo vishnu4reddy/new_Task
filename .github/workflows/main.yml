@@ -24,7 +24,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref : ${{github.ref}}
+          ref : ${{github.head_ref}}
 
       - name: Set up Git
         run: |
@@ -37,7 +37,7 @@ jobs:
 
       - name: Rebase the PR branch onto main
         run: |
-          git checkout ${{ github.ref }}
+          git checkout ${{ github.head_ref }}
           git rebase origin/main
 
       - name: Check for rebase conflicts
@@ -54,5 +54,5 @@ jobs:
 
       - name: Push changes back to the PR branch
         run: |
-          git push --force-with-lease origin ${{ github.ref }}
+          git push --force-with-lease origin ${{ github.head_ref }}
 
