@@ -3,13 +3,10 @@ name: Rebase PR with Main on Push
 on:
   push:
     branches:
-      - main   # Adjust according to your feature branch naming convention
-    # Alternatively, you can use a pattern or specific branches.
+      - main  
 permissions:
   contents: write
-  pages: read
   pull-requests: read
-  statuses: read
 jobs:
   rebase-with-main:
     runs-on: ubuntu-latest
