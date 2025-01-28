@@ -29,7 +29,7 @@ jobs:
             echo "No conflicts detected during rebase."
           else
             echo "Conflicts detected during rebase! Resolving conflicts..."
-            # Automatically resolve conflicts by keeping changes from the PR (ours) or from main (theirs)
+            # Automatically resolve conflicts by keeping changes from the PR 
             git rebase --strategy=recursive --strategy-option=ours origin/main || echo "Automatic rebase failed. Conflicts need manual resolution."
             git add .
             git rebase --continue
