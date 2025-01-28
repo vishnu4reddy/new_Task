@@ -3,22 +3,17 @@ name: Rebase PR with Main on Push
 on:
   push:
     branches:
-      - main   # Adjust according to your feature branch naming convention
-    # Alternatively, you can use a pattern or specific branches.
+      - main  
 permissions:
   contents: write
-  pages: read
   pull-requests: read
-  statuses: read
 jobs:
   rebase-with-main:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          ref : ${{github.head_ref}}
-          
+      
       - name: Fetch latest main branch
         run: |
           git fetch origin main
@@ -34,7 +29,7 @@ jobs:
             echo "No conflicts detected during rebase."
           else
             echo "Conflicts detected during rebase! Resolving conflicts..."
-            # Automatically resolve conflicts by keeping changes from the PR (ours) or from main (theirs)
+            # Automatically resolve conflicts by keeping changes from the PR 
             git rebase --strategy=recursive --strategy-option=ours origin/main || echo "Automatic rebase failed. Conflicts need manual resolution."
             git add .
             git rebase --continue
