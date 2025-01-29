@@ -59,7 +59,7 @@ jobs:
             #if merge conflicts occur handle the conflicts automatically 
             if [ $? -ne 0 ]; then  #There are no errors 
               echo "Merge conflict detected for PR #$pr_number: $pr_branch"
-              git merge --strategy-option ours || echo "Merge resolution failed for PR #$pr_number"
+              git merge --strategy-option theres || echo "Merge resolution failed for PR #$pr_number"
               git add .
               git commit -m "Resolved conflicts for PR #$pr_number"
             fi
