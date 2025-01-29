@@ -8,7 +8,7 @@ permissions:
   contents: write
   pull-requests: read
 jobs:
-  rebase-with-main:
+  merge-with-main:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,7 +34,7 @@ jobs:
           echo "::set-output name=prs::$prs"
           echo "$prs"
 
-      - name: Rebase remaining PRs onto main branch
+      - name: merge remaining PRs onto main branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -54,14 +54,14 @@ jobs:
       
             git fetch origin pull/$pr_number/head:pr-$pr_number
             git checkout main
-            git merge --no-ff pr-$pr_number || echo "Merge conflicts detected for PR #$pr_number: $pr_branch
+            git merge --no-ff pr-$pr_number || echo "Merge conflicts detected for PR #$pr_number: $pr_branch"
 
             #if merge conflicts occur handle the conflicts automatically 
-            if [ $? -ne 0 ]; then
-              echo "Merge conflict detected for PR #$pr_number: $pr_branch
-              git merge --strategy-option ours || echo "Merge resolution failed for PR #$pr_number
+            if [ $? -ne 0 ]; then  #There are no errors 
+              echo "Merge conflict detected for PR #$pr_number: $pr_branch"
+              git merge --strategy-option ours || echo "Merge resolution failed for PR #$pr_number"
               git add .
-              # git commit -m "Resolved conflicts for PR #$pr_number"
+              git commit -m "Resolved conflicts for PR #$pr_number"
             fi
 
             #push the changes in main branch
