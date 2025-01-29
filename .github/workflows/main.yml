@@ -3,21 +3,25 @@ name: Auto Resolve Conflicts and Merge PR
 on:
   push:
     branches:
-      - main
-
+      - main  
+permissions:
+  contents: write
+  pull-requests: read
 jobs:
-  check-pr-and-resolve-conflict:
+  rebase-with-main:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:  
           token: ${{  secrets.GITHUB_TOKEN  }} 
+
       - name: Set up Git
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
+          with:  
+            token: ${{  secrets.GITHUB_TOKEN  }} 
 
       - name: Fetch the main branch
         run: |
