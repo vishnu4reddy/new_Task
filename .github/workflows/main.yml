@@ -56,8 +56,8 @@ jobs:
             git checkout main
             git merge --no-ff pr-$pr_number || echo "Merge conflicts detected for PR #$pr_number: $pr_branch
 
-            #if merge cobflicts occur handle the conflicts automatically 
-            if [$? -ne 0]; 
+            #if merge conflicts occur handle the conflicts automatically 
+            if [[ $? -ne 0 ]];  # it returns the code is zero 
             then
               echo "Merge conflict detected for PR #$pr_number: $pr_branch
               git merge --strategy-option ours || echo "Merge resolution failed for PR #$pr_number
