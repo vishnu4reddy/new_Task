@@ -62,7 +62,7 @@ jobs:
               echo "Merge conflict detected for PR #$pr_number: $pr_branch
               git merge --strategy-option ours || echo "Merge resolution failed for PR #$pr_number
               git add .
-              git commit -m "Resolved conflicts for PR #pr_number: $pr_title"
+              git commit -m "Resolved conflicts for PR #$pr_number"
             fi
 
             #push the changes in main branch
