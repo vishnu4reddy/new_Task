@@ -1,13 +1,9 @@
 name: Auto Resolve Conflicts and Merge PR
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-    types:
-      - opened
-      - synchronize
-      - reopened
 
 jobs:
   check-pr-and-resolve-conflict:
