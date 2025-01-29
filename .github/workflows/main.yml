@@ -1,4 +1,4 @@
-name: Rebase PR with Main on Push
+name: Merge and Resolve conflicts for Open PRs
 
 on:
   push:
@@ -52,42 +52,21 @@ jobs:
       
             echo "Rebasing PR #$pr_number ($pr_branch) onto main branch..."
       
-            # Fetch the latest main branch and the PR branch
-            git fetch origin
-      
-            # Checkout the main branch and pull the latest changes
+            git fetch origin pull/$pr_number/head:pr-$pr_number
             git checkout main
-            git pull origin main
-      
-            # Checkout the PR branch and pull the latest changes from the PR branch
-            git checkout "$pr_branch"
-            git pull origin "$pr_branch"
-      
-            # Ensure there are no uncommitted changes before rebasing
-            if [ -n "$(git status --porcelain)" ]; then
-              echo "::error::There are uncommitted changes in PR #$pr_number ($pr_branch). Please commit or stash them before proceeding."
-              continue
+            git merge --no-ff pr-$pr_number || echo "Merge conflicts detected for PR #$pr_number: $pr_branch
+
+            #if merge cobflicts occur handle the conflicts automatically 
+            if [$? -ne 0]; then
+              echo "Merge conflict detected for PR #$pr_number: $pr_branch
+              git merge --strategy-option ours || echo "Merge resolution failed for PR #$pr_number
+              git add .
+              git commit -m "Resolved conflicts for PR #pr_number: $pr_title"
             fi
-            # Start the rebase process
-            echo "Starting rebase of PR #$pr_number..."
-      
-            # Rebase the PR branch onto the main branch
-            # git rebase origin/main || {
-            #   echo "::error::Rebase failed for PR #$pr_number. Trying to skip conflicting commits."
-      
-            #   git rebase --strategy=recursive --strategy-option=ours origin/main || echo "Automatic rebase failed. Conflicts need manual resolution."
-                 
-            #   git add .
-            #   git rebase --continue
-            # }
-            echo "::error::Rebase failed for PR #$pr_number. Trying to skip conflicting commits."
-      
-            git rebase --strategy=recursive --strategy-option=ours origin/main || echo "Automatic rebase failed. Conflicts need manual resolution."
-            git add .
-            git rebase --continue
-            # After the rebase is successful, push the rebased PR
-            echo "Rebasing of PR #$pr_number ($pr_branch) successful!"
-            
-            git push origin "$pr_branch" --force-with-lease
-            echo "Successfully pushed rebased PR #$pr_number ($pr_branch)."
+
+            #push the changes in main branch
+            git push origin main
           done
+      - name: Final push to main
+        run: |
+          git push origin main
